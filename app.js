@@ -2,33 +2,39 @@ const todoForm = document.querySelector('form');
 const todoInput = document.getElementById('todo-input');
 const todoListUl = document.getElementById('todo-list');
 
-let allTodos = getTodos();
-updateTodoList();
+let allTodos = getTodos(); // alle Todos werden in einem Array gesammelt
+updateTodoList(); // Funktion:
 
+// Die Form erhält einen Eventlistener und fängt das das Ereignis ab und verhindert das Standardverhalten
+// Anschließend wird die die Funktion "addTodo" aufgerufen
 todoForm.addEventListener('submit', function (e) {
   e.preventDefault();
   addTodo();
 });
 
 function addTodo() {
-  const todoText = todoInput.value.trim();
+  const todoText = todoInput.value.trim(); //erstellt eine Konstante, welche den Inhalt aus dem HTML-Input-Feld nimmt
   if (todoText.length > 0) {
+    // eine If-Anfrage, welche verhindert, das leere Eingaben angenommen werden
     const todoObject = {
+      // jeder eintrag wird zum Objekt mit den inhalten Text und ob dieser erledigt wurde (standardmäßig nicht erledigt)
       text: todoText,
       completed: false,
     };
-    allTodos.push(todoObject);
-    updateTodoList();
-    saveTodos();
-    todoInput.value = '';
+    allTodos.push(todoObject); //in das array allTodos wird das erstelle Objekt hinzugefügt
+    updateTodoList(); // die Liste wird geupdatet
+    saveTodos(); // und gespeichert
+    todoInput.value = ''; //cleart das eingabefeld
   }
 }
 
 function updateTodoList() {
-  todoListUl.innerHTML = '';
+  //updated die liste
+  todoListUl.innerHTML = ''; //die Todoliste wird gecleart
   allTodos.forEach((todo, todoIndex) => {
+    //iteriert über alle Items und führt eine Callback funktion aus, welche für jedes item das todo und einen index in das array mitgibt
     todoItem = createTodoItem(todo, todoIndex);
-    todoListUl.append(todoItem);
+    todoListUl.append(todoItem); //fügt das Item als letztes dem array zu (append)
   });
 }
 
@@ -65,6 +71,7 @@ function createTodoItem(todo, todoIndex) {
       />
     </svg>
   </button>`;
+
   const deleteButton = todoLI.querySelector('.delete-button');
   deleteButton.addEventListener('click', () => {
     deleteTodoItem(todoIndex);
